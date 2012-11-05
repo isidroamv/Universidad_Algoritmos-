@@ -22,7 +22,7 @@ public class Kicksort {
         return quicksort(numeros,0,numeros.length-1);
 
     }
-    public int[] quicksort(int numeros[],int izq,int der)
+    public int[] quicksort(int[] numeros,int izq,int der)
     {
         if(izq>=der)
             return numeros;
@@ -33,7 +33,7 @@ public class Kicksort {
         int aux;
         pivote = izq;
         while(izq!=der)
-        {imprimeArreglo(numeros);
+        {//imprimeArreglo(numeros);
 
          while(numeros[der]>=numeros[pivote] && izq<der)
                der--;
@@ -59,15 +59,15 @@ public class Kicksort {
 
 
 
-    public void imprimeArreglo(int arreglo[])
+    public void imprimeArreglo(int[] integers)
     {
         String imp="";
-        for(int i=0;i<arreglo.length;i++)
+        for(int i=1;i<integers.length;i++)
         {
-            if(i!=arreglo.length-1)
-            imp=imp+arreglo[i]+",";
+            if(i!=integers.length-1)
+            imp=imp+integers[i]+",";
             else
-                imp=imp+arreglo[i]+"";
+                imp=imp+integers[i]+"";
 
         }
         System.out.println(imp);

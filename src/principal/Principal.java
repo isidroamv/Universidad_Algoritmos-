@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -13,9 +14,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class Principal {
@@ -101,9 +106,6 @@ public class Principal {
 				for(int i=0;i<15;i++){
 					((DefaultTableModel) table.getModel()).insertRow(i,obj[i]);
 				}
-				int array[] ={3,7,3,4,12,6,3,7,4};
-				Kicksort a = new Kicksort();
-				a.imprimeArreglo(a.quicksort(array));
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -156,6 +158,35 @@ public class Principal {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmKicksort = new JMenuItem("KickSort");
+		mntmKicksort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[][] obj = getTableData(table);
+				int sizeArray=0;
+				for(int i=0;i<obj.length;i++){
+					if(obj[i][3]!=null){
+						sizeArray++;
+					}
+				}
+				int[] array = new int[sizeArray+1] ;
+				Kicksort a = new Kicksort();
+				
+				for(int i=0;i<obj.length;i++){
+					if(obj[i][3]!=null){
+						if(obj[i][3] instanceof String){
+							array[i] = Integer.parseInt((String) obj[i][3]);
+						}else{
+							array[i]=(Integer) obj[i][3];
+						}
+						System.out.println(array[i]);
+					}
+				}
+				System.out.print("Los elementos en kicksort son: ");
+				a.imprimeArreglo(a.quicksort(array));
+				System.out.println();
+				
+				//JOptionPane.showMessageDialog(frame, this,"e", 0);
+			}
+		});
 		mnNewMenu.add(mntmKicksort);
 		
 		JMenuItem mntmMergasort = new JMenuItem("MergeSort");
@@ -167,5 +198,14 @@ public class Principal {
 		entero = (int) Math.round(Math.random()*15);
 
 		return entero;
+	}
+	public Object[][] getTableData (JTable table) {
+	    DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+	    int nRow = dtm.getRowCount(), nCol = dtm.getColumnCount();
+	    Object[][] tableData = new Object[nRow][nCol];
+	    for (int i = 0 ; i < nRow ; i++)
+	        for (int j = 0 ; j < nCol ; j++)
+	            tableData[i][j] = dtm.getValueAt(i,j);
+	    return tableData;
 	}
 }
