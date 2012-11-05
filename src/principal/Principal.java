@@ -1,3 +1,5 @@
+package principal;
+import recursion.*;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,6 +13,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 
 public class Principal {
@@ -96,6 +101,9 @@ public class Principal {
 				for(int i=0;i<15;i++){
 					((DefaultTableModel) table.getModel()).insertRow(i,obj[i]);
 				}
+				int array[] ={3,7,3,4,12,6,3,7,4};
+				Kicksort a = new Kicksort();
+				a.imprimeArreglo(a.quicksort(array));
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -140,6 +148,18 @@ public class Principal {
 		));
 		scrollPane.setViewportView(table);
 		frame.getContentPane().setLayout(groupLayout);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Ordenamiento");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmKicksort = new JMenuItem("KickSort");
+		mnNewMenu.add(mntmKicksort);
+		
+		JMenuItem mntmMergasort = new JMenuItem("MergeSort");
+		mnNewMenu.add(mntmMergasort);
 	}
 	
 	private int edadRamd(){
