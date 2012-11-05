@@ -59,16 +59,13 @@ public class Kicksort {
 
 
 
-    public void imprimeArreglo(int[] integers)
-    {
+    public void imprimeArreglo(int[] integers){
         String imp="";
-        for(int i=1;i<integers.length;i++)
-        {
+        for(int i=1;i<integers.length;i++){
             if(i!=integers.length-1)
             imp=imp+integers[i]+",";
             else
                 imp=imp+integers[i]+"";
-
         }
         System.out.println(imp);
     }

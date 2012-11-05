@@ -177,7 +177,7 @@ public class Principal {
 						}else{
 							array[i]=(Integer) obj[i][3];
 						}
-						System.out.println(array[i]);
+						//System.out.println(array[i]);
 					}
 				}
 				System.out.print("Los elementos en kicksort son: ");
@@ -190,6 +190,34 @@ public class Principal {
 		mnNewMenu.add(mntmKicksort);
 		
 		JMenuItem mntmMergasort = new JMenuItem("MergeSort");
+		mntmMergasort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[][] obj = getTableData(table);
+				int sizeArray=0;
+				for(int i=0;i<obj.length;i++){
+					if(obj[i][3]!=null){
+						sizeArray++;
+					}
+				}
+				int[] array = new int[sizeArray+1] ;
+				MergeSort a = new MergeSort();
+				
+				for(int i=0;i<obj.length;i++){
+					if(obj[i][3]!=null){
+						if(obj[i][3] instanceof String){
+							array[i] = Integer.parseInt((String) obj[i][3]);
+						}else{
+							array[i]=(Integer) obj[i][3];
+						}
+						//System.out.println(array[i]);
+					}
+				}
+				array = a.OrdenaMerge(array);
+				System.out.print("Los elementos en Mergesort son: ");	
+				a.imprimeArreglo(array);
+				System.out.println();
+			}
+		});
 		mnNewMenu.add(mntmMergasort);
 	}
 	
