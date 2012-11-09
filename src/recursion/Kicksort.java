@@ -9,7 +9,7 @@ package recursion;
 
 /**
  *
- * @author porca
+ * @author Isidro
  */
 public class Kicksort {
 
