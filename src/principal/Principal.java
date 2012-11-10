@@ -22,6 +22,14 @@ import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Button;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 
 public class Principal {
@@ -63,13 +71,42 @@ public class Principal {
 		JPanel panel = new JPanel();
 		
 		JScrollPane scrollPane = new JScrollPane();
+		
+		final JTree tree = new JTree();
+		tree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("Cosas") {
+				{
+					DefaultMutableTreeNode node_1;
+					DefaultMutableTreeNode node_2;
+					node_1 = new DefaultMutableTreeNode("colores");
+						node_1.add(new DefaultMutableTreeNode("Azul"));
+						node_1.add(new DefaultMutableTreeNode("Rojo"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("Deporte");
+						node_2 = new DefaultMutableTreeNode("Acu\u00E1tico");
+							node_2.add(new DefaultMutableTreeNode("Nataci\u00F3n"));
+						node_1.add(node_2);
+						node_2 = new DefaultMutableTreeNode("Terrestre");
+							node_2.add(new DefaultMutableTreeNode("Ciclismo "));
+						node_1.add(node_2);
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("Comida");
+						node_1.add(new DefaultMutableTreeNode("hot dogs"));
+						node_1.add(new DefaultMutableTreeNode("pizza"));
+					add(node_1);
+				}
+			}
+		));
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addComponent(tree, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE))
 						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE))
 					.addContainerGap())
 		);
@@ -79,8 +116,10 @@ public class Principal {
 					.addContainerGap()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(78, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tree, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(52, Short.MAX_VALUE))
 		);
 		
 		JButton btnGeneraElementos = new JButton("Genera Elementos");
@@ -331,17 +370,37 @@ public class Principal {
 			public void actionPerformed(ActionEvent arg0) {
 				String cadena = JOptionPane.showInputDialog("Posicion a buscar: ");
 				int posicion = Integer.parseInt(cadena);
-				/////////////////////////////////////////7-
 				if(isRepeat(posicion,getCountValidateRows())){
 					ListSelectionModel selectionModel = table.getSelectionModel();
 					selectionModel.setSelectionInterval(posicion-1,posicion-1);
 				}else{
-					//JOptionPane.showConfirmDialog(null,"No se encontró",JOptionPane.OK_CANCEL_OPTION);
 					JOptionPane.showMessageDialog(null, "No se encontró");
 				}
 			}
 		});
 		mnHash.add(mntmBuscar);
+		
+		JMenu mnGrfos = new JMenu("Grafos");
+		menuBar.add(mnGrfos);
+		
+		JMenuItem mntmRecorridoProfundidad = new JMenuItem("Recorrido profundidad");
+		mntmRecorridoProfundidad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//System.out.println(tree.get
+				TreeNode raiz = (TreeNode)tree.getModel().getRoot(); 
+				imprimirRecorridoProfundidad( tree ); 
+			}
+		});
+		mnGrfos.add(mntmRecorridoProfundidad);
+		
+		JMenuItem mntmRecorridoAnchura = new JMenuItem("Recorrido Anchura");
+		mntmRecorridoAnchura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TreeNode raiz = (TreeNode)tree.getModel().getRoot(); 
+				imprimirRecorridoAmplitud( tree ); 
+			}
+		});
+		mnGrfos.add(mntmRecorridoAnchura);
 	}
 	
 	private int edadRamd(){
@@ -422,4 +481,27 @@ public class Principal {
 		n = (n+"").hashCode();
 		return n;
 	}
+	
+	public void imprimirRecorridoProfundidad(JTree tree) { 
+		String output = "";
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode)(tree.getModel().getRoot());
+		Enumeration<?> enumeration = root.depthFirstEnumeration();
+		System.out.println("Recorrido por Profundudidad es: ");
+	    while (enumeration.hasMoreElements()){
+	    	output = enumeration.nextElement().toString() + " ";
+	    	System.out.println(output);
+	    }   
+	}
+	
+	public void imprimirRecorridoAmplitud(JTree tree){
+		String output ="";
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode)(tree.getModel().getRoot());
+		Enumeration<?> enumeration = root.breadthFirstEnumeration();
+		System.out.println("Recorrido por Profundudidad es: ");
+	    while (enumeration.hasMoreElements()){
+	    	output = enumeration.nextElement().toString() + " ";
+	    	System.out.println(output);
+	    }
+	}
+
 }
